@@ -13,7 +13,17 @@ const Accordion = ({ dataArray, getsAll }) => {
     const [expandedIndex, setExpandedIndex] = React.useState(null);
     const [visible, setVisible] = React.useState(false);
     const [idStd, setIdStd] = React.useState(0)
-    const swipeableRefs = React.useRef(dataArray.map(() => React.createRef()));
+    const swipeableRefs = React.useRef([]);
+
+    // Initialize refs before rendering
+    if (swipeableRefs.current.length !== dataArray.length) {
+        swipeableRefs.current = dataArray.map((_, i) => swipeableRefs.current[i] || React.createRef());
+    }
+
+    // Update refs when dataArray changes
+    React.useEffect(() => {
+        swipeableRefs.current = dataArray.map((_, i) => swipeableRefs.current[i] || React.createRef());
+    }, [dataArray]);
 
     const handlePress = (index) => {
         setExpandedIndex(expandedIndex === index ? null : index);
@@ -28,6 +38,7 @@ const Accordion = ({ dataArray, getsAll }) => {
     const clickLeft = (index, id) => {
         if (index !== null) {
             swipeableRefs.current[index].current.close();
+            console.log(swipeableRefs.current[index])
             console.log("left action");
             setVisible(true)
             setIdStd(id)

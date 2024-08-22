@@ -10,7 +10,6 @@ const Model = ({ visible, hideDialog,getAll, apiCall,testFn }) => {
 
     const saveStudent = async () => {
         try {
-            
             const postedData = await testFn('/student/'+ apiCall, {
                 student_name: name,
                 student_age: age,
@@ -19,7 +18,6 @@ const Model = ({ visible, hideDialog,getAll, apiCall,testFn }) => {
             })
             console.log(postedData);
             
-
             const res = await getAll()
             hideDialog()
             console.log(postedData);
